@@ -1,8 +1,8 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 
 //#include <stdio.h>
-////斐波那契额数列
-////O（2^N）
+//斐波那契额数列
+//O（2^N）
 //long long Fib(size_t N)
 //{
 //	if (N < 3)
@@ -35,7 +35,7 @@
 //	printf("%lld\n", Fib_(7));
 //	return 0;
 //}
-
+//
 //#include <stdio.h>
 //long long Fac(size_t N)
 //{
@@ -56,46 +56,44 @@
 //void func1()
 //{
 //	int a = 0;
-//	printf("%p\n", &a);
+//	printf("%p\n", &a);	//00B6F9D4
 //}
-//
 //void func2()
 //{
 //	int b = 0;
-//	printf("%p\n", &b);
+//	printf("%p\n", &b); //00B6F9D4
 //}
-//
 //int main(void)
 //{
 //	func1();
 //	func2();
 //	return 0;
 //}
-//
+
 
 //旋转数组
-	 //k = k % numsSize;
-	 //// 变长数组
-	 //int tmp[numsSize];
-	
-	 //// 后k个拷贝到前面
-	 //int j = 0;
-	 //for(int i = numsSize-k; i < numsSize; ++i)
-	 //{
-	 //    tmp[j] = nums[i];
-	 //    ++j;
-	 //}
-	
-	 ////前n-k个拷贝到后面
-	 //for(int i = 0; i < numsSize-k; ++i)
-	 //{ 
-	 //    tmp[j] = nums[i];
-	 //    ++j;
-	 //}
-	 //    for(int i = 0; i < numsSize; ++i)
-	 //{
-	 //    nums[i] = tmp[i];//将数组拷贝回原数组
-	 //}
+//	 k = k % numsSize;
+//	 // 变长数组
+//	 int tmp[numsSize];
+//	
+//	 // 后k个拷贝到前面
+//	 int j = 0;
+//	 for(int i = numsSize-k; i < numsSize; ++i)
+//	 {
+//	     tmp[j] = nums[i];
+//	     ++j;
+//	 }
+//	
+//	 //前n-k个拷贝到后面
+//	 for(int i = 0; i < numsSize-k; ++i)
+//	 { 
+//	     tmp[j] = nums[i];
+//	     ++j;
+//	 }
+//	     for(int i = 0; i < numsSize; ++i)
+//	 {
+//	     nums[i] = tmp[i];//将数组拷贝回原数组
+//	 }
 
 //void reservse(int*a, int begin, int end)
 //{
@@ -117,8 +115,9 @@
 //	reservse(nums, 0, numsSize - k - 1);
 //	reservse(nums, numsSize - k, numsSize - 1);
 //	reservse(nums, 0, numsSize - 1);
-//
+
 //}
+//数据结构初阶——斐波那契额数列的复杂度和顺序表
 
 #include "Seqlist.h"
 
