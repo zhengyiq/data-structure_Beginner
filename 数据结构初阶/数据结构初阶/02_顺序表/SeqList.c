@@ -119,37 +119,43 @@ int SLFind_Single(SL* ps, SLDataType x)
 //顺序表的连续查找
 int SLFind_double(SL* ps, SLDataType x, int begin)
 {
-	
+	assert(ps);
+	for (size_t i = begin; i < ps->size; i++)
+	{
+		if (ps->a[i] == x)
+			return i;
+	}
+	return -1;
 }
 
 //顺序表在pos位置处插入
-void SLInsert(SL* ps, size_t pos, SLDataType x)
+void SLInsert(SL* ps, int pos, SLDataType x)
 {
 	assert(ps);
 	assert(pos >= 0);
 	assert(pos <= ps->size);
 	SLCheckCapacity(ps);
-	size_t end = ps->size - 1;
+	int end = ps->size - 1;
 	while (end >= pos)
 	{
 		ps->a[end + 1] = ps->a[end];
-		if (end == 0)
-			break;//使用size_t要注意算术转换的问题
 		end--;
 	}
 	ps->a[pos] = x;
 	ps->size++;
 }
-//void SLInsert(SL* ps, int pos, SLDataType x)
+//void SLInsert(SL* ps, size_t pos, SLDataType x)
 //{
 //	assert(ps);
 //	assert(pos >= 0);
 //	assert(pos <= ps->size);
 //	SLCheckCapacity(ps);
-//	int end = ps->size - 1;
+//	size_t end = ps->size - 1;
 //	while (end >= pos)
 //	{
 //		ps->a[end + 1] = ps->a[end];
+//		if (end == 0)
+//			break;//使用size_t要注意算术转换的问题
 //		end--;
 //	}
 //	ps->a[pos] = x;
@@ -157,7 +163,7 @@ void SLInsert(SL* ps, size_t pos, SLDataType x)
 //}
 
 //顺序表在pos位置处删除
-void SLErase(SL* ps, size_t pos)
+void SLErase(SL* ps, int pos)
 {
 	assert(ps);
 	assert(pos >= 0);
@@ -170,7 +176,7 @@ void SLErase(SL* ps, size_t pos)
 	}
 	ps->size--;
 }
-//void SLErase(SL* ps, int pos)
+//void SLErase(SL* ps, size_t pos)
 //{
 //	assert(ps);
 //	assert(pos >= 0);

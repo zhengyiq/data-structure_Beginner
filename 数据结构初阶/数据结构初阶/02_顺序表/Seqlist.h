@@ -46,22 +46,12 @@ void SLCheckCapacity(SL* ps);
 //顺序表的查找
 int SLFind_Single(SL* ps, SLDataType x);
 //顺序表的连续查找
-int SLFind_double(SL* ps, SLDataType x, int begin)
-{
-	assert(ps);
-
-	for (int i = begin; i < ps->size; ++i)
-	{
-		if (ps->a[i] == x)
-		{
-			return i;
-		}
-	}
-	return -1;
-}
+int SLFind_double(SL* ps, SLDataType x, int begin);
 
 //顺序表在pos位置进行插入删除
 void SLInsert(SL* ps, size_t pos, SLDataType x);
 //void SLInsert(SL* ps, int pos, SLDataType x);
 void SLErase(SL* ps, size_t pos);
 //void SLErase(SL* ps, int pos);
+
+
