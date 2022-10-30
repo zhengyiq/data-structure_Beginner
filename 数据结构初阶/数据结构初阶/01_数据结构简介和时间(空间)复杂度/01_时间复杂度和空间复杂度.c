@@ -1,5 +1,5 @@
-#define _CRT_SECURE_NO_WARNINGS 1
-
+//#define _CRT_SECURE_NO_WARNINGS 1
+//
 
 	
 	//输入: nums = [1, 2, 3, 4, 5, 6, 7], k = 3
@@ -10,6 +10,8 @@
 	//向右轮转 3 步 : [5, 6, 7, 1, 2, 3, 4]
 
 	//来源：力扣（LeetCode）
+
+
 //#include <stdio.h>
 //
 //void rotate(int* nums, int numsSize, int k) {
@@ -61,8 +63,6 @@
 //
 //	return 0;
 //}
-
-
 //#include <stdio.h>
 //
 //int search_max(int* str, int sz)
