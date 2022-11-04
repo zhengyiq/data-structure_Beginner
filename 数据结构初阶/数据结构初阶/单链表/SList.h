@@ -17,8 +17,8 @@ SListNode* BuySListNode(SLTDateType x);
 SListNode* CreateSList(SLTDateType n);
 
 // 单链表打印
-void SListPrint_PP(SListNode** pplist);
-void SListPrint(SListNode* pplist);
+//void SListPrint_PP(const SListNode** pplist);
+void SListPrint(SListNode* plist);
 
 // 单链表尾插
 void SListPushBack(SListNode** pplist, SLTDateType x);
@@ -33,7 +33,7 @@ void SListPopBack(SListNode** pplist);
 void SListPopFront(SListNode** pplist);
 
 // 单链表查找
-SListNode* SListFind_PP(const SListNode** pplist, SLTDateType x);
+//SListNode* SListFind_PP(const SListNode** pplist, SLTDateType x);
 SListNode* SListFind(SListNode* plist, SLTDateType x);
 
 // 单链表在pos位置之后插入x

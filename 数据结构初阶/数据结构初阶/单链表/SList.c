@@ -27,14 +27,14 @@ void SListPrint_PP(const SListNode** pplist)
 	//printf("NULL");
 }
 // 单链表打印
-void SListPrint(SListNode* pplist)
+void SListPrint(SListNode* plist)
 {
-	SListNode* phead = pplist;
-	while (phead != NULL)
+	SListNode* cur = plist;
+	while (cur != NULL)
 	{
 		//printf("[%d|%p]->", cur->data, cur->next);
-		printf("%d->", phead->data);
-		phead = phead->next;
+		printf("%d->", cur->data);
+		cur = cur->next;
 	}
 	printf("NULL\n");
 }
@@ -64,6 +64,25 @@ SListNode* CreateSList(SLTDateType n)
 }
 
 // 单链表尾插
+
+//void SListPushBack(SListNode* plist, SLTDateType x)
+//{
+//	SListNode* phead = plist;
+//	SListNode* ptmp = BuySListNode(x);
+//	if (plist == NULL)
+//	{
+//		plist = ptmp;
+//	}
+//	else
+//	{
+//		while (phead->next != NULL)
+//		{
+//			phead = phead->next;
+//		}
+//		phead->next = ptmp;
+//	}
+//}
+
 void SListPushBack(SListNode** pplist, SLTDateType x)
 {
 	SListNode* phead = *pplist;
@@ -93,73 +112,81 @@ void SListPushFront(SListNode** pplist, SLTDateType x)
 	//}
 	//else
 	//{
-		SListNode* ptmp = BuySListNode(x);
-		ptmp->next = phead;
-		*pplist = ptmp;
+		SListNode* newnode = BuySListNode(x);
+		newnode->next = phead;
+		*pplist = newnode;
 //	}
 }
 
 // 单链表的尾删
 void SListPopBack(SListNode** pplist)
 {
-	assert(pplist);
-	SListNode* phead = *pplist;
-	SListNode* ptail = phead->next;
-	if (phead->next == NULL)
+	assert(*pplist);
+	SListNode* prev = *pplist;
+	SListNode* ptail = prev->next;
+	if (prev->next == NULL)
 	{
-		free(phead);
+		free(prev);
 		*pplist = NULL;
 		return;
 	}
 	while (ptail->next != NULL)
 	{
 		ptail = ptail->next;
-		phead = phead->next;
+		prev = prev->next;
 	}
-	free(phead->next);
-	phead->next = NULL;
+	free(prev->next);
+	prev->next = NULL;
 }
 
 // 单链表头删
 void SListPopFront(SListNode** pplist)
 {
-	assert(pplist);
-	SListNode* phead = *pplist;
-	if (phead == NULL)
-	{
-		free(phead);
-		*pplist = NULL;
-		return;
-	}
-	else
-	{
-		*pplist = phead->next;
-		free(phead);
-		phead = NULL;
-	}
+	assert(*pplist);
+	SListNode* next =(*pplist)->next;
+	free(*pplist);
+	*pplist = next;
 }
+//void SListPopFront(SListNode** pplist)
+//{
+//	assert(*pplist);
+//	SListNode* phead = *pplist;
+//	if (phead == NULL)
+//	{
+//		free(phead);
+//		*pplist = NULL;
+//		return;
+//	}
+//	else
+//	{
+//		*pplist = phead->next;
+//		free(phead);
+//		phead = NULL;
+//	}
+//}
 
 // 单链表查找
-SListNode* SListFind_PP(const SListNode** pplist, SLTDateType x)
-{
-	//SListNode* phead = *pplist;
-	SListNode* ptail = *pplist;
-	while (ptail)
-	{
-		if (ptail->data == x)
-		{
-			printf("已找到所求的数字:>%d\n", ptail->data);
-			//phead->next = NULL;
-			return ptail;
-		}
-		else 
-		{
-			ptail = ptail->next;
-		}
-	}
-	printf("未找到所求的数字\n");
-	return NULL;
-}
+
+//SListNode* SListFind_PP(const SListNode** pplist, SLTDateType x)
+//{
+//	//SListNode* phead = *pplist;
+//	SListNode* ptail = *pplist;
+//	while (ptail)
+//	{
+//		if (ptail->data == x)
+//		{
+//			printf("已找到所求的数字:>%d\n", ptail->data);
+//			//phead->next = NULL;
+//			return ptail;
+//		}
+//		else 
+//		{
+//			ptail = ptail->next;
+//		}
+//	}
+//	printf("未找到所求的数字\n");
+//	return NULL;
+//}
 
 SListNode* SListFind(SListNode* plist, SLTDateType x)
 {
@@ -170,13 +197,11 @@ SListNode* SListFind(SListNode* plist, SLTDateType x)
 		{
 			return cur;
 		}
-
 		cur = cur->next;
 	}
 
 	return NULL;
 }
-
 
 
 // 在pos之前插入
@@ -186,7 +211,6 @@ void SListInsert(SListNode** pplist, SListNode* pos, SLTDateType x)
 	assert(pos);
 	SListNode* phead = *pplist;
 	SListNode* ptail = *pplist;
-	SListNode* pfront = phead->next;
 	if (*pplist == pos)
 	{
 		if (*pplist == NULL)
@@ -206,12 +230,9 @@ void SListInsert(SListNode** pplist, SListNode* pos, SLTDateType x)
 		while (ptail->next != pos)
 		{
 			ptail = ptail->next;
-			//phead = phead->next;
 			assert(ptail);
-		}
-		//ptail = ptail->next;
+		} 
 		SListNode* ptmp = BuySListNode(x);
-		//phead->next = ptmp;
 		ptail->next = ptmp;
 		ptmp->next = pos;
 	}
@@ -226,13 +247,13 @@ void SListInsertAfter(SListNode* pos, SLTDateType x)
 	ptmp->next = phead->next;
 	phead->next = ptmp;
 }
-
+ 
 // 删除pos位置
 void SListErase(SListNode** pplist, SListNode* pos)
 {
-	assert(pplist);
+	assert(pos);
 	assert(*pplist);
-	if (*pplist == pos)
+	if (*pplist == pos) 
 	{
 		SListPopFront(pplist);
 	}
@@ -242,14 +263,11 @@ void SListErase(SListNode** pplist, SListNode* pos)
 		while (phead->next != pos)
 		{
 			phead = phead->next;
-
 			// 检查pos不是链表中节点，参数传错了
 			assert(phead);
 		}
-
 		phead->next = pos->next;
 		free(pos);
-		//pos = NULL;
 	}
 }
 
