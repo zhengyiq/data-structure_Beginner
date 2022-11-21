@@ -1,10 +1,11 @@
 #pragma once
-
+#define _CRT_SECURE_NO_WARNINGS 1
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
 #include <stdbool.h>
-
+#include <string.h>
+#include <time.h>
 typedef int HPDataType;
 
 //定义堆的结构体
@@ -22,7 +23,7 @@ void HeapInit(Heap* php);
 void HeapCreate(Heap* php, HPDataType* a, int n);
 
 // 堆的销毁
-void HeapDestory(Heap* php);
+void HeapDestroy(Heap* php);
 
 //打印堆的数据
 void HeapPrint(Heap* php);
@@ -49,4 +50,8 @@ bool HeapEmpty(Heap* php);
 // 找最小的前K个，建立K个数的大堆
 void PrintTopK(int* a, int n, int k);
 void TestTopk();
+
+void HeapSort(int *a, int size);
+
+void CreateFileData();
 

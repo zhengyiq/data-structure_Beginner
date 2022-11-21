@@ -1,7 +1,7 @@
-
-
 #include "Heap.h"
 
+void AdjustDown(HPDataType* data, int size, int parent);
+void AdjustUp(HPDataType* data, int child);
 //初始化堆
 void HeapInit(Heap* php)
 {
@@ -10,6 +10,40 @@ void HeapInit(Heap* php)
 	php->_data = NULL;
 	php->_size = 0;
 	php->_capacity = 0;
+}
+
+// 堆的构建
+void HeapCreate(Heap* php, HPDataType* a, int size)
+{
+	assert(php);
+
+	//php->_capacity = size;
+	HPDataType* newnode = (HPDataType*)realloc(php->_data, sizeof(HPDataType) * size);
+	if (newnode == NULL)
+	{
+		perror("realloc failded");
+		exit(-1);
+	}
+	php->_data = newnode;
+	//php->_data = a;
+	//php->_size = size;
+	memcpy(php->_data, a, sizeof(HPDataType) * size);
+	php->_data = a;
+	php->_size = size;
+
+	//建堆算法
+	//向下调整建堆
+	for (int i = (size - 1 - 1) / 2; i >= 0; i--)
+	{
+		AdjustDown(php->_data, php->_size, i);
+	}
+
+	//向上调整建堆
+	for (int i = 1; i < size; i++)
+	{
+		AdjustUp(php->_data, i);
+	}
+
 }
 
 void Swap(HPDataType* num1, HPDataType* num2)
@@ -70,12 +104,12 @@ void AdjustDown(HPDataType* data, int size, int parent)
 
 	while (child < size)
 	{
-		if ((data[child + 1] > data[child]) && (child + 1 < size))
+		if ((data[child + 1] < data[child]) && (child + 1 < size))
 		{
 			child++;
 		}
 
-		if (data[child] < data[parent])
+		if (data[child] > data[parent])
 		{
 			break;
 		}
@@ -126,21 +160,13 @@ void HeapPrint(Heap* php)
 }
 
 // 堆的销毁
-//void HeapDestory(Heap* php)
-//{
-//	assert(php);
-//
-//	free(php->_data);
-//	php->_data = NULL;
-//
-//	php->_size = php->_capacity = 0;
-//}
 void HeapDestroy(Heap* php)
 {
 	assert(php);
 
 	free(php->_data);
 	php->_data = NULL;
+
 	php->_size = php->_capacity = 0;
 }
 
@@ -158,4 +184,89 @@ bool HeapEmpty(Heap* php)
 	assert(php);
 
 	return php->_size == 0;
+}
+
+//升序的堆排序
+void HeapSort(int* a, int size)
+{
+	for (int i = (size - 1 - 1) / 2; i >= 0; i--)
+	{
+		AdjustDown(a, size, i);
+	}
+	HeapPrint(&a);
+
+	int end = size - 1;
+	while (end > 0)
+	{
+		Swap(&a[0], &a[end]);
+		AdjustDown(a, end--, 0);
+	}
+	HeapPrint(&a);
+}
+
+
+void CreateFileData()
+{
+	int k = 5;
+	FILE* fin = fopen("data.txt", "w");
+	srand(time(0));
+	if (fin == NULL)
+	{
+		perror("fopen failed");
+		exit(-1);
+	}
+	
+	for (int i = 0; i < 100; i++)
+	{
+		int val = rand()%10000;
+
+		if ((val % 3 == 0) && k>0)
+		{
+			val = val + 100000;
+			k--;
+		}
+		fprintf(fin, "%d\n", val);
+
+
+	}
+
+	fclose(fin);
+}
+
+void TestTopK()
+{
+	FILE* fout = fopen("data.txt", "r");
+	if (fout == NULL)
+	{
+		perror("fopen failed");
+		exit(-1);
+	}
+
+	HPDataType* a = (HPDataType*)malloc(sizeof(HPDataType) * 5);
+	for (int i = 0; i < 5; i++)
+	{
+		fscanf(fout, "%d", &a[i]);
+	}
+
+	for (int i = (5 - 1 - 1) / 2; i >= 0; i--)
+	{
+		AdjustDown(a, 5, i);
+	}
+	int val = 0;
+	while ((fscanf(fout, "%d", &val)) != EOF)
+	{
+		if (val > a[0])
+		{
+			a[0] = val;
+			AdjustDown(a, 5, 0);
+		}
+	}
+	for (int i = 0; i < 5; i++)
+	{
+		printf("%d\n", a[i]);
+	}
+
+	HeapSort(a, 5);
+
+	fclose(fout);
 }

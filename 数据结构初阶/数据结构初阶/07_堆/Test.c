@@ -52,7 +52,18 @@ void TestHeap3()
 	HeapDestroy(&hp);
 }
 
-void TestHeap2()
+void TestHeap4()
+{
+	int array[] = { 27, 15, 19, 18, 28, 34, 65, 49, 25, 37 };
+	int sz = sizeof(array) / sizeof(array[0]);
+	Heap hp;
+	//HeapInit(&hp);
+	//HeapCreate(&hp, array, sz);
+	//HeapPrint(&hp);
+	HeapSort(array, sz);
+}
+
+void TestHeap5()
 {
 	int array[] = { 27,15,19,18,28,34,65,49,25,37 };
 	int sz = sizeof(array) / sizeof(array[0]);
@@ -76,7 +87,11 @@ void TestHeap2()
 
 }
 
+
 int main()
 {
-	TestHeap3();
+	//TestHeap4();
+	//CreateFileData();
+	TestTopK();
+
 }
