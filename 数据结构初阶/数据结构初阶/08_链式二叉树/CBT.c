@@ -14,6 +14,7 @@ BTNode* ByTreeNode(BTDataType x)
 	return newnode;
 }
 
+
 //生成一颗树
 BTNode* BinaryTreeCreate()
 {
@@ -147,3 +148,60 @@ int TreeLevelKSize(BTNode* root, int k)
 
 	return TreeLevelKSize(root->_left, k-1) + TreeLevelKSize(root->_right, k-1);
 }
+
+// 二叉树查找值为x的节点
+BTNode* TreeFind(BTNode* root, BTDataType x)
+{
+	if (root == NULL)
+	{
+		return NULL;
+	}
+	if (root->_data == x)
+	{
+		return root;
+	}
+	BTNode* ret1 = TreeFind(root->_left, x);
+	if (ret1 != NULL)
+	{
+		return ret1;
+	}
+	BTNode* ret2 = TreeFind(root->_right, x);
+	if (ret2 != NULL)
+	{
+		return ret2;
+	}
+	return NULL;
+}
+
+// 层序遍历
+void TreeLevelOrder(BTNode* root)
+{
+	Queue q;
+	QueueInit(&q);
+	if (root != NULL)
+	{
+		QueuePush(&q, root);
+	}
+	while (!QueueEmpty(&q))
+	{
+		BTNode* front = QueueFront(&q);
+
+		printf("%d ", front->_data);
+		
+		QueuePop(&q);
+
+		if (front->_left != NULL)
+		{
+			QueuePush(&q, front->_left);
+		}
+		if (front->_right != NULL)
+		{
+			QueuePush(&q, front->_right);
+		}
+	}
+	printf("\n");
+	QueueDestroy(&q);
+}
+
+// 判断二叉树是否是完全二叉树
+int TreeComplete(BTNode* root);

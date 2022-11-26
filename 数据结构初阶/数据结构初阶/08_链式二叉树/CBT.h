@@ -12,6 +12,8 @@ typedef struct BinaryTreeNode
 	struct BinaryTreeNode* _right;
 }BTNode;
 
+#include "Q1.h"
+
 // 通过前序遍历的数组"ABD##E#H##CF##G##"构建二叉树
 BTNode* BinaryTreeCreate();
 // 二叉树销毁

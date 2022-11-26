@@ -1,5 +1,5 @@
 #include "CBT.h"
-
+#include "Q1.h"
 void TestTree1()
 {
 	BTNode* root = BinaryTreeCreate();
@@ -37,8 +37,28 @@ void TestTree5()
 	BTNode* root = BinaryTreeCreate();
 	printf("TreeLevelKSize:%d", TreeLevelKSize(root, 4));
 }
+
+void TestTree6()
+{
+	BTNode* root = BinaryTreeCreate();
+	BTNode* ret = TreeFind(root, 8);
+	if (ret != NULL)
+	{
+		printf("The Tree has the Node:%d\n", ret->_data);
+	}
+	else
+	{
+		printf("The Tree don't have the Node");
+	}
+}
+
+void TestTree7()
+{
+	BTNode* root = BinaryTreeCreate();
+	TreeLevelOrder(root);
+}
 int main()
 {
-	TestTree5();
+	TestTree6();
 	return 0;
 }
