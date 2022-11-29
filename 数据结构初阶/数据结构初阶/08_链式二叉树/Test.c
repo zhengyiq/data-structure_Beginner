@@ -55,10 +55,23 @@ void TestTree6()
 void TestTree7()
 {
 	BTNode* root = BinaryTreeCreate();
-	TreeLevelOrder(root);
+	printf("TreeLevelKSize:%d", TreeLevelKSize(root, 4));
 }
+
+void TestTree8()
+{
+	BTNode* root = BinaryTreeCreate();
+	printf("TreeComplete:%d", TreeComplete(root));
+}
+
+void TestTree9()
+{
+	BTNode* root = BinaryTreeCreate();
+	TreeLevelNum(root);
+}
+
 int main()
 {
-	TestTree6();
+	TestTree9();
 	return 0;
 }

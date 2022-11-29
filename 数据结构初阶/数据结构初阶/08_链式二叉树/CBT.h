@@ -37,4 +37,6 @@ void PostOrder(BTNode* root);
 // 层序遍历
 void TreeLevelOrder(BTNode* root);
 // 判断二叉树是否是完全二叉树
-int TreeComplete(BTNode* root);
+bool TreeComplete(BTNode* root);
+//单独取出树的每一层数值
+void TreeLevelNum(BTNode* root);

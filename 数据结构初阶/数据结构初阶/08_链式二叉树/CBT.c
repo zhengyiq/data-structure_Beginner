@@ -31,7 +31,7 @@ BTNode* BinaryTreeCreate()
 	n2->_left = n3;
 	n4->_left = n5;
 	n4->_right = n6;
-	n3->_right = n7;
+	n2->_right = n7;
 
 	return n1;
 }
@@ -204,4 +204,70 @@ void TreeLevelOrder(BTNode* root)
 }
 
 // 判断二叉树是否是完全二叉树
-int TreeComplete(BTNode* root);
+bool TreeComplete(BTNode* root)
+{
+	Queue q;
+	QueueInit(&q);
+	QueuePush(&q, root);
+
+	while (!QueueEmpty(&q))
+	{
+		if (QueueFront(&q) == NULL)
+		{
+			break;
+		}
+		BTNode* front = QueueFront(&q);
+		QueuePop(&q);
+		QueuePush(&q, front->_left);
+		QueuePush(&q, front->_right);
+	}
+
+	while (!QueueEmpty(&q))
+	{
+		BTNode* tmp = QueueFront(&q);
+		if (tmp != NULL)
+		{
+			QueueDestroy(&q);
+			return false;
+		}
+		QueuePop(&q);
+	}
+
+	QueueDestroy(&q);
+
+	return true;
+}
+
+//单独取出树的每一层数值
+void TreeLevelNum(BTNode* root)
+{
+	int TreeLevel = 0;
+	Queue q;
+	QueueInit(&q);
+	QueuePush(&q, root);
+	TreeLevel = 1;
+
+	while (!QueueEmpty(&q))
+	{
+		while (TreeLevel--)
+		{
+			BTNode* front = QueueFront(&q);
+			printf("%d ", front->_data);
+			QueuePop(&q);
+			if (front->_left != NULL)
+			{
+				QueuePush(&q, front->_left);
+			}
+
+			if (front->_right != NULL)
+			{
+				QueuePush(&q, front->_right);
+			}
+		}
+		printf("\n");
+
+		//上层出完了下一层进队列
+		TreeLevel = QueueSize(&q);
+	}
+	QueueDestroy(&q);
+}
