@@ -1,4 +1,5 @@
 #include "Sort.h"
+#include "Stack.h"
 
 void TestInsertSort()
 {
@@ -41,14 +42,37 @@ void TestBubbleSort()
 void TestPartSort1()
 {
 	int a[] = { 9, 1, 2, 5, 7, 4, 8, 6, 3, 5 };
-	PartSort1(a, 0, sizeof(a) / sizeof(int) - 1);
+	QuickSort(a, 0, sizeof(a) / sizeof(int) - 1);
+	Print(a, sizeof(a) / sizeof(int));
+}
+
+void TestQuickSortNonR()
+{
+	int a[] = { 9, 1, 2, 5, 7, 4, 8, 6, 3, 5 };
+	QuickSortNonR(a, 0, sizeof(a) / sizeof(int) - 1);
+	Print(a, sizeof(a) / sizeof(int));
+}
+
+void TestMergeSort()
+{
+	//int a[] = { 10, 6, 7, 1, 3, 9, 4, 2 };
+	int a[] = { 9, 1, 2, 5, 7, 4, 8, 6, 3, 5 };
+	MergeSort(a, sizeof(a) / sizeof(int));
+	Print(a, sizeof(a) / sizeof(int));
+}
+
+void TestMergeSortNonR()
+{
+	//int a[] = { 10, 6, 7, 1, 3, 9, 4, 2 };
+	int a[] = { 9, 1, 2, 5, 7, 4, 8, 6, 3, 5 };
+	MergeSortNonR(a, sizeof(a) / sizeof(int));
 	Print(a, sizeof(a) / sizeof(int));
 }
 
 void TestOP()
 {
 	srand(time(0));
-	const int N = 10000;
+	const int N = 100000;
 	int* a1 = (int*)malloc(sizeof(int) * N);
 	int* a2 = (int*)malloc(sizeof(int) * N);
 	int* a3 = (int*)malloc(sizeof(int) * N);
@@ -60,7 +84,8 @@ void TestOP()
 	int j = 0;
 	for (int i = 0; i < N; ++i)
 	{
-		a1[i] = rand();
+		//a1[i] = rand();
+		a1[i] = i;
 		/*int x = rand();
 		if (x % 7 == 0 && x % 3 == 0 && x % 2 == 0)
 		{
@@ -79,10 +104,10 @@ void TestOP()
 		a6[i] = a1[i];
 		a7[i] = a1[i];
 	}
-	printf("%d\n", j);
+	//printf("%d\n", j);
 
 	int begin1 = clock();
-	InsertSort(a1, N);
+	//InsertSort(a1, N);
 	int end1 = clock();
 
 	int begin2 = clock();
@@ -94,7 +119,7 @@ void TestOP()
 	int end3 = clock();
 
 	int begin4 = clock();
-	//HeapSort(a4, N);
+	HeapSort(a4, N);
 	int end4 = clock();
 
 	int begin7 = clock();
@@ -102,7 +127,7 @@ void TestOP()
 	int end7 = clock();
 
 	int begin5 = clock();
-	//QuickSort(a5, 0, N - 1);
+	QuickSort(a5, 0, N - 1);
 	int end5 = clock();
 
 	int begin6 = clock();
@@ -134,7 +159,10 @@ int main()
 	//TestSelectSort();
 	//TestHeapSort();
 	//TestBubbleSort();
-	TestPartSort1();
+	//TestPartSort1();
+	//TestQuickSortNonR();
+	//TestMergeSort();
+	TestMergeSortNonR();
 	//TestOP();
 
 	return 0;

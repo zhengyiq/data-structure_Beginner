@@ -1,4 +1,5 @@
 #include "Sort.h"
+#include "Stack.h"
 
 void Swap(int* num1, int* num2)
 {
@@ -178,34 +179,318 @@ void BubbleSort(int* a, int n)
 	}
 }
 
+//三数取中
+int FindMidNum(int* a, int begin, int end)
+{
+	int mid = (begin + end) / 2;
+	if (a[begin] > a[mid])
+	{
+		if (a[end] > a[begin])
+		{
+			return begin;
+		}
+		else if (a[end] < a[mid])
+		{
+			return mid;
+		}
+		else
+		{
+			return end;
+		}
+	}
+	if (a[begin] < a[mid])
+	{
+		if (a[end] < a[begin])
+		{
+			return begin;
+		}
+		else if (a[end] > a[mid])
+		{
+			return mid;
+		}
+		else
+		{
+			return end;
+		}
+	}
+}
+
 // 快速排序hoare版本
 int PartSort1(int* a, int begin, int end)
+{
+	int mid = FindMidNum(a, begin, end);
+	Swap(&a[mid], &a[begin]);
+	/*int keyi = begin;*/
+
+	int left = begin;
+	int right = end;
+	int keyi = left;
+	while (left < right)
+	{
+		while ((left < right) && (a[right] >= a[keyi]))
+		{
+			right--;
+		}
+
+		while ((left < right) && (a[left] <= a[keyi]))
+		{
+			left++;
+		}
+
+		Swap(&a[left], &a[right]);
+	}
+
+	Swap(&a[keyi], &a[left]);
+	keyi = left;
+
+	return keyi;
+}
+
+// 挖坑法
+int PartSort2(int* a, int begin, int end)
+{
+	int mid = FindMidNum(a, begin, end);
+	Swap(&a[mid], &a[begin]);
+
+	int left = begin;
+	int right = end;
+	int hole = begin;
+	int key = a[begin];
+
+	while (left < right)
+	{
+		//右边找小，填到左边的坑里
+		while (left < right && a[right] > key)
+		{
+			--right;
+		}
+		a[hole] = a[right];
+		hole = right;
+
+		//左边找大，填到右边的坑里
+		while (left < right && a[left] < key)
+		{
+			++left;
+		}
+		Swap(&a[hole], &a[left]);
+		hole = left;
+	}
+	a[hole] = key;
+	return hole;
+}
+
+// 双指针法
+int PartSort3(int* a, int begin, int end)
+{
+	int mid = FindMidNum(a, begin, end);
+	Swap(&a[mid], &a[begin]);
+	
+	int prev = begin;
+	int cur = begin + 1;
+	int keyi = begin;
+
+	while (cur <= end)
+	{
+		//找到比k小的值跟++prev进行交换，小的往前翻，大的往后翻
+		//if (a[cur] < a[keyi] && ++prev != cur)
+		//	Swap(&a[prev], &a[cur]);
+
+		if (a[cur] < a[keyi])
+		{
+			Swap(&a[++prev], &a[cur]);
+		}
+		++cur;
+	}
+
+	Swap(&a[prev], &a[keyi]);
+	keyi = prev;
+	return keyi;
+}
+
+void QuickSort(int* a, int begin, int end)
 {
 	if (begin >= end)
 	{
 		return;
 	}
-	int left = begin;
-	int right = end;
-	int key = left;
-	while (left < right)
-	{
-		while ((left < right) && (a[right] >= a[key]))
-		{
-			right--;
-		}
 
-		while ((left < right) && (a[left] <= a[key]))
-		{
-			left++;
-		}
-		
-		Swap(&a[left], &a[right]);
+	if ((end - begin + 1) < 15)
+	{
+		InsertSort(a + begin, end - begin + 1);
 	}
 
-	Swap(&a[key], &a[left]);
-	key = left;
+	else
+	{
+		int keyi = PartSort2(a, begin, end);
 
-	PartSort1(a, begin, key - 1);
-	PartSort1(a, key + 1, end);
+		QuickSort(a, begin, keyi - 1);
+		QuickSort(a, keyi + 1, end);
+	}
+}
+
+// 快排非递归
+void QuickSortNonR(int* a, int begin, int end)
+{
+	Stack st;
+	StackInit(&st);
+
+	StackPush(&st, begin);
+	StackPush(&st, end);
+
+	while (!StackEmpty(&st))
+	{
+		int right = StackTop(&st);
+		StackPop(&st);
+		int left = StackTop(&st);
+		StackPop(&st);
+		int keyi = PartSort3(a, left, right);
+		
+		if (keyi - 1 > left)
+		{
+			StackPush(&st, left);
+			StackPush(&st, keyi - 1);
+		}
+
+		if (right > keyi + 1)
+		{
+			StackPush(&st, keyi + 1);
+			StackPush(&st, right);
+		}
+	}
+	StackDestroy(&st);
+}
+
+void _MergeSort(int* a, int begin, int end, int* tmp)
+{
+	if (begin >= end)
+	{
+		return;
+	}
+	
+	// 去中间的值进行分割
+	int mid = (begin + end) / 2;
+
+	// 类似于二叉树后序遍历
+	_MergeSort(a, begin, mid, tmp);
+	_MergeSort(a, mid + 1, end, tmp);
+
+	// 使用begin1和begin2来记录左右区间的起始位置
+	int begin1 = begin, end1 = mid;
+	int begin2 = mid + 1, end2 = end;
+	int i = begin;
+
+	while (begin1 <= end1 && begin2 <= end2)
+	{
+		if (a[begin1] <= a[begin2])
+		{
+			tmp[i++] = a[begin1++];
+		}
+		else
+		{
+			tmp[i++] = a[begin2++];
+		}
+	}
+
+	while (begin1 <= end1)
+	{
+		tmp[i++] = a[begin1++];
+	}
+
+	while (begin2 <= end2)
+	{
+		tmp[i++] = a[begin2++];
+	}
+
+	//将排序好的数组拷贝回原数组
+	memcpy(a + begin, tmp + begin, sizeof(int) * (end - begin + 1));
+}
+// 归并排序递归实现
+void MergeSort(int* a, int n)
+{
+	int* tmp = (int*)malloc(sizeof(int) * n);
+	if (tmp == NULL)
+	{
+		perror("malloc fail");
+		exit(-1);
+	}
+
+	_MergeSort(a, 0, n - 1, tmp);
+	free(tmp);
+	tmp = NULL;
+}
+
+
+// 归并排序非递归实现
+void MergeSortNonR(int* a, int n)
+{
+	int* tmp = (int*)malloc(sizeof(int) * n);
+	if (tmp == NULL)
+	{
+		perror("malloc fail");
+		exit(-1);
+	}
+
+	int rangeN = 1;
+	while (rangeN < n)
+	{
+		for (int j = 0; j < n; j += rangeN * 2)
+		{
+			int begin1 = j, end1 = j + rangeN - 1;
+			int begin2 = j + rangeN, end2 = j + 2 * rangeN - 1;
+			int i = j;
+
+			//需要对越界的情况进行判断
+			//有两种针对越界的方案
+			//1、修正
+			//2、跳出
+			//不能使用end1 = begin2 = end2 = n-1 来进行修正，会导致问题出现
+			if (end1 >= n)
+			{
+				end1 = n - 1;
+				begin2 = n; 
+				end2 = n - 1;
+			}
+			else if (begin2 >= n)
+			{
+				begin2 = n;
+				end2 = n - 1;
+			}
+			else if (end2 >= n)
+			{
+				end2 = n - 1;
+			}
+
+			while (begin1 <= end1 && begin2 <= end2)
+			{
+				if (a[begin1] <= a[begin2])
+				{
+					tmp[i++] = a[begin1++];
+				}
+				else
+				{
+					tmp[i++] = a[begin2++];
+				}
+			}
+
+			while (begin1 <= end1)
+			{
+				tmp[i++] = a[begin1++];
+			}
+
+			while (begin2 <= end2)
+			{
+				tmp[i++] = a[begin2++];
+			}
+
+			//将排序好的数组拷贝回原数组
+			memcpy(a + j, tmp + j, sizeof(int) * (end2 - j + 1));
+		}
+			//将排序好的数组拷贝回原数组
+			//若是使用break的方式需要将拷贝整体进行。
+			//memcpy(a, tmp, sizeof(int) * (n));
+			rangeN *= 2;
+	}
+
+	free(tmp);
+	tmp = NULL;
 }

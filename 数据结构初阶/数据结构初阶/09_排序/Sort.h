@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // 插入排序
 void InsertSort(int* a, int n);
@@ -30,3 +31,9 @@ void QuickSort(int* a, int left, int right);
 
 // 快速排序 非递归实现
 void QuickSortNonR(int* a, int left, int right);
+
+// 归并排序递归实现
+void MergeSort(int* a, int n);
+
+// 归并排序非递归实现
+void MergeSortNonR(int* a, int n);
