@@ -157,12 +157,12 @@ int main()
 	//TestInsertSort();
 	//TestShellSort();
 	//TestSelectSort();
-	//TestHeapSort();
+	TestHeapSort();
 	//TestBubbleSort();
 	//TestPartSort1();
 	//TestQuickSortNonR();
 	//TestMergeSort();
-	TestMergeSortNonR();
+	//TestMergeSortNonR();
 	//TestOP();
 
 	return 0;

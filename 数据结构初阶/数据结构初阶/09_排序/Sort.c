@@ -24,7 +24,7 @@ void AdjustDwon(int* a, int n, int root)
 
 	while (child < n)
 	{
-		if ((a[child + 1] > a[child]) && (child + 1 < n))
+		if ((child + 1 < n) && (a[child + 1] > a[child]))
 		{
 			child++;
 		}
@@ -493,4 +493,83 @@ void MergeSortNonR(int* a, int n)
 
 	free(tmp);
 	tmp = NULL;
+}
+
+int GetMidIndex(int* a, int begin, int end)
+{
+	int mid = begin + rand() % (end - begin);
+	if (a[begin] > a[mid])
+	{
+		if (a[end] > a[begin])
+		{
+			return begin;
+		}
+		else if (a[end] < a[mid])
+		{
+			return mid;
+		}
+		else
+		{
+			return end;
+		}
+	}
+	if (a[begin] < a[mid])
+	{
+		if (a[end] < a[begin])
+		{
+			return begin;
+		}
+		else if (a[end] > a[mid])
+		{
+			return mid;
+		}
+		else
+		{
+			return end;
+		}
+	}
+}
+
+void QuickSort_(int* a, int begin, int end)
+{
+	if (begin >= end)
+	{
+		return;
+	}
+
+	if ((end - begin) < 15)
+	{
+		InsertSort(a + begin, end - begin + 1);
+	}
+	else
+	{
+		int mid = GetMidIndex(a, begin, end);
+		Swap(&a[mid], &a[begin]);
+
+		int left = begin;
+		int right = end;
+		int key = a[begin];
+		int cur = begin + 1;
+
+		while (cur <= right)
+		{
+			if (a[cur] < key)
+			{
+				Swap(&a[cur], &a[left]);
+				cur++;
+				left++;
+			}
+			else if (a[cur] > key)
+			{
+				Swap(&a[cur], &a[right]);
+				--right;
+			}
+			else
+			{
+				cur++;
+			}
+		}
+		QuickSort_(a, begin, left - 1);
+		QuickSort_(a, right + 1, end);
+	}
 }
