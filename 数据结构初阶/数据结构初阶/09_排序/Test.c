@@ -152,18 +152,18 @@ void TestOP()
 }
 
 
-int main()
-{
-	//TestInsertSort();
-	//TestShellSort();
-	//TestSelectSort();
-	TestHeapSort();
-	//TestBubbleSort();
-	//TestPartSort1();
-	//TestQuickSortNonR();
-	//TestMergeSort();
-	//TestMergeSortNonR();
-	//TestOP();
-
-	return 0;
-}
+//int main()
+//{
+//	//TestInsertSort();
+//	//TestShellSort();
+//	//TestSelectSort();
+//	TestHeapSort();
+//	//TestBubbleSort();
+//	//TestPartSort1();
+//	//TestQuickSortNonR();
+//	//TestMergeSort();
+//	//TestMergeSortNonR();
+//	//TestOP();
+//
+//	return 0;
+//}

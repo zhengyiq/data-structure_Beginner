@@ -359,7 +359,7 @@ void QuickSortNonR(int* a, int begin, int end)
 	}
 	StackDestroy(&st);
 }
-
+// 归并排序递归实现
 void _MergeSort(int* a, int begin, int end, int* tmp)
 {
 	if (begin >= end)
@@ -404,7 +404,6 @@ void _MergeSort(int* a, int begin, int end, int* tmp)
 	//将排序好的数组拷贝回原数组
 	memcpy(a + begin, tmp + begin, sizeof(int) * (end - begin + 1));
 }
-// 归并排序递归实现
 void MergeSort(int* a, int n)
 {
 	int* tmp = (int*)malloc(sizeof(int) * n);
@@ -495,6 +494,8 @@ void MergeSortNonR(int* a, int n)
 	tmp = NULL;
 }
 
+
+//快速排序优化
 int GetMidIndex(int* a, int begin, int end)
 {
 	int mid = begin + rand() % (end - begin);
@@ -529,7 +530,6 @@ int GetMidIndex(int* a, int begin, int end)
 		}
 	}
 }
-
 void QuickSort_(int* a, int begin, int end)
 {
 	if (begin >= end)
@@ -573,3 +573,4 @@ void QuickSort_(int* a, int begin, int end)
 		QuickSort_(a, right + 1, end);
 	}
 }
+
