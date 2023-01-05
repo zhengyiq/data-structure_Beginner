@@ -574,3 +574,43 @@ void QuickSort_(int* a, int begin, int end)
 	}
 }
 
+void CountSort(int* a, int n)
+{
+	int max = a[0], min = a[0];
+
+	for (int i = 0; i < n; i++)
+	{
+		if (a[i] > max)
+		{
+			max = a[i];
+		}
+		if (a[i] < min)
+		{
+			min = a[i];
+		}
+	}
+	
+	int range = max - min + 1;
+	int* countA = (int*)calloc(range, sizeof(int));
+	if (countA == NULL)
+	{
+		perror("calloc failed");
+	}
+
+	// 统计次数
+	for (int i = 0; i < range; i++)
+	{
+		countA[a[i] - min]++;
+	}
+	
+	// 排序
+	int k = 0;
+	for (int j = 0; j < range; j++)
+	{
+		while (countA[j]--)
+		{
+			a[k++] = j + min;
+		}
+	}
+	free(countA);
+}
